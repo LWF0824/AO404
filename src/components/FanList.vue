@@ -46,14 +46,24 @@
             <div id="fan-list">
               <div id="allfan">全部粉丝（{{follow_num}}个）</div>
               <div>
-                <div v-for="(item) in tabledata" :key="item.id">
+                <div v-for="(item, index) in tabledata" :key="index">
                   <div>
                     <hr color=#EFEEEE SIZE=1>
                     <p id="fan-user">
                       <img v-bind:src="item.picture" width="55px" align="middle">
                       <span id="fan-name">{{item.user_name}}</span>
-                      <el-button v-if="item.follow === 0" round plain type="primary" id="follow">+关注</el-button>
-                      <el-button v-else round plain type="info" id="follow">已关注</el-button>
+                      <el-button v-if="item.follow === 0" round plain type="primary" id="follow" @click="addFollow(index)">+关注</el-button>
+                      <el-button v-else round plain type="info" id="follow" @click="openDialog(index)">已关注</el-button>
+                      <el-dialog
+                        title="提示"
+                        :visible.sync="dialogVisible"
+                        width="30%">
+                        <span>确认取消关注该用户？</span>
+                        <span slot="footer" class="dialog-footer">
+                          <el-button @click="dialogVisible = false">取 消</el-button>
+                          <el-button type="primary" @click="cancleFollow(index)">确 定</el-button>
+                        </span>
+                      </el-dialog>
                     </p>
                   </div>
                 </div>
@@ -94,11 +104,42 @@ export default {
     },
     accountsecurity() {
       this.$router.push({path: '/AccountSecurity'});
+    },
+    addFollow(index) {
+      console.log("关注"+index),
+      this.$set (this.tabledata, index, {id: 1,
+          user_name: '哈哈哈',
+          picture: require('../../src/assets/mlogo.png'),
+          follow: 1}),
+      this.$message({
+          message: '关注成功',
+          type: 'success'
+        });
+    },
+    cancleFollow(index) {
+      index=this.tempIndex,
+      console.log("取消关注"+index),
+      this.$set (this.tabledata, index, {id: 2,
+          user_name: '哈哈哈',
+          picture: require('../../src/assets/mlogo.png'),
+          follow: 0}),
+      this.dialogVisible=false,
+      this.$message({
+          message: '取消关注成功',
+          type: 'success'
+        });
+    },
+    openDialog(index) {
+      this.dialogVisible = true,
+      console.log("传值"+index),
+      this.tempIndex=index
     }
   },
   data() {
     return {
       follow_num:20,
+      dialogVisible: false,
+      tempIndex:null,
       tabledata: [{
           id: 1,
           user_name: '哈哈哈',

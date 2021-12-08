@@ -65,7 +65,7 @@
                       <span>确认提交修改？</span>
                       <span slot="footer" class="dialog-footer">
                         <el-button @click="confirmpswDialogVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="confirmpswDialogVisible = false">确 定</el-button>
+                        <el-button type="primary" @click="changePsw()">确 定</el-button>
                       </span>
                     </el-dialog>
                   </span>
@@ -107,6 +107,15 @@ export default {
     },
     accountsecurity() {
       this.$router.push({path: '/AccountSecurity'});
+    },
+    changePsw() {
+      console.log(this.inputOldpsw,this.inputNewpsw,this.inputNewpswAgain),
+      this.pswDialogVisible=false,
+      this.confirmpswDialogVisible=false,
+      this.$message({
+          message: '修改密码成功！',
+          type: 'success'
+        });
     }
   },
   data() {

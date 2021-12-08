@@ -64,7 +64,7 @@
                       <span>确认提交修改？</span>
                       <span slot="footer" class="dialog-footer">
                         <el-button @click="confirmDialogVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="confirmDialogVisible = false">确 定</el-button>
+                        <el-button type="primary" @click="changeInfo">确 定</el-button>
                       </span>
                     </el-dialog>
                   </span>
@@ -100,13 +100,6 @@ export default {
     }
   },
   methods: {
-    handleClose(done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
-    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -127,6 +120,15 @@ export default {
     },
     accountsecurity() {
       this.$router.push({path: '/AccountSecurity'});
+    },
+    changeInfo() {
+      console.log(this.input_name,this.input_email),
+      this.infoDialogVisible=false,
+      this.confirmDialogVisible=false,
+      this.$message({
+          message: '信息修改成功！',
+          type: 'success'
+        });
     }
   }
 }
